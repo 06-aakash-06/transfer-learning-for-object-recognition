@@ -1,16 +1,16 @@
 # Overcoming Class Imbalance in Small-Scale Vision Datasets
 
 ## Overview
-This repository contains the codebase and findings for a comprehensive data-centric ablation study on the Caltech-101 dataset. The project investigates how different deep learning architectures respond to extreme class imbalance (long tail distributions) and evaluates the necessity of pipeline engineering.
+This repository contains the codebase and findings for a comprehensive data-centric ablation study on the Caltech-101 dataset. The project investigates how different deep learning architectures respond to extreme class imbalance (long-tail distributions) and evaluates the necessity of pipeline engineering.
 
-Specifically, this study compares a Convolutional Neural Network (EfficientNet-B4) against a Vision Transformer (ViT-B/16) across a four phase optimization pipeline:
+Specifically, this study compares a Convolutional Neural Network (EfficientNet-B4) against a Vision Transformer (ViT-B/16) across a four-phase optimization pipeline:
 1. Naive Baseline Training
 2. Stratified Shuffle Splitting
 3. Stochastic Variance (AutoAugment)
 4. Class-Weighted Cross-Entropy Loss
 
 ### The Dataset
-The Caltech-101 dataset contains severe long tail bias, with majority classes having up to 800 images, and minority classes having as few as 40.
+The Caltech-101 dataset contains severe long-tail bias, with majority classes having up to 800 images, and minority classes having as few as 40.
 
 ![Caltech-101 Distribution](caltech_distribution.png)
 
@@ -22,8 +22,8 @@ The most significant finding of this study is the inherent difference in archite
 
 ![F1 Progression](ablation_f1_progression.png)
 
-* **EfficientNet-B4 (CNN)** suffered a catastrophic minority class collapse under naive training conditions, achieving a deceptive 71.62% overall accuracy but a failing 0.5366 Macro F1 Score. It strictly required mathematical intervention (Weighted Loss) to recover to state of the art levels (0.8168).
-* **ViT-B/16 (Transformer)** demonstrated structural immunity to the long tail distribution, scoring a 0.9012 Macro F1 immediately upon baseline training. This proves that global self attention mechanisms are vastly superior at handling feature scarcity compared to local receptive fields.
+* **EfficientNet-B4 (CNN)** suffered a catastrophic minority class collapse under naive training conditions, achieving a deceptive 71.62% overall accuracy but a failing 0.5366 Macro F1-Score. It strictly required mathematical intervention (Weighted Loss) to recover to state-of-the-art levels (0.8168).
+* **ViT-B/16 (Transformer)** demonstrated an inherent structural immunity to the long-tail distribution, scoring a 0.9012 Macro F1 immediately upon baseline training. This proves that global self-attention mechanisms are vastly superior at handling feature scarcity compared to local receptive fields.
 
 ---
 
@@ -40,8 +40,8 @@ The most significant finding of this study is the inherent difference in archite
 The confusion matrices below illustrate the EfficientNet-B4 baseline failure (left), where the model lazily guessed majority classes (visible as vertical noise), versus the highly optimized Run 4 pipeline (right), which successfully formed a strict diagonal, recovering the rare classes.
 
 <p align="center">
-  <img src="run1_confusion_matrix.png" width="45%" alt="Run 1 Naive Baseline Confusion Matrix" />
-  <img src="run4_confusion_matrix.png" width="45%" alt="Run 4 Weighted Loss Confusion Matrix" />
+  <img src="EfficientNetB4/run1_confusion_matrix.png" width="45%" alt="Run 1 Naive Baseline Confusion Matrix" />
+  <img src="EfficientNetB4/run4_confusion_matrix.png" width="45%" alt="Run 4 Weighted Loss Confusion Matrix" />
 </p>
 
 ---
@@ -52,14 +52,21 @@ The project is split into two independent environments to isolate the architectu
 
 ```text
 Caltech101-Ablation-Study/
-├── EfficientNet/
-│   ├── CaltechAblation.ipynb
+├── EfficientNetB4/
+│   ├── EfficientNetB4.ipynb
 │   ├── efficientnet_training_loss.png
+│   ├── run1_confusion_matrix.png
+│   ├── run2_confusion_matrix.png
+│   ├── run3_confusion_matrix.png
 │   └── run4_confusion_matrix.png
 ├── ViT/
 │   ├── ViT.ipynb
-│   ├── vit_training_loss.png
-│   └── vit_run4_cm.png
+│   ├── test
+│   ├── vit_run1_cm.png
+│   ├── vit_run2_cm.png
+│   ├── vit_run3_cm.png
+│   ├── vit_run4_cm.png
+│   └── vit_training_loss.png
 ├── README.md
 ├── ablation_f1_progression.png
 └── caltech_distribution.png
